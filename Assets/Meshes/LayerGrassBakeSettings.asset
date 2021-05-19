@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdc556d66028b514e8e1b7e1160fe06e, type: 3}
   m_Name: LayerGrassBakeSettings
   m_EditorClassIdentifier: 
-  sourceMesh: {fileID: 0}
+  sourceMesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
   sourceSubMeshIndex: 0
-  scale: {x: 0, y: 0, z: 0}
+  scale: {x: 200, y: 1, z: 200}
   rotation: {x: 0, y: 0, z: 0}
-  numGrassLayers: 0
-  grassHeight: 0
+  numGrassLayers: 8
+  grassHeight: 0.25

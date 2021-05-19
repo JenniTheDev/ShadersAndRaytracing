@@ -19,7 +19,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class LayerGrassBaker {
@@ -38,15 +39,15 @@ public static class LayerGrassBaker {
     private struct GeneratedVertex {
         public Vector3 position;
         public Vector3 normal;
-        public Vector2 uvAndHeight;
+        public Vector4 uvAndHeight;
     }
 
     // The size of one entry in the various compute buffers
     private const int SOURCE_VERT_STRIDE = sizeof(float) * (3 + 3 + 2);
 
-    private const int SOURCE_INDEX_STRIDE = sizeof(int);
+    private const int SOURCE_INDEX_STRIDE = sizeof(int); // changed to float from int
     private const int GENERATED_VERT_STRIDE = sizeof(float) * (3 + 3 + 4);
-    private const int GENERATED_INDEX_STRIDE = sizeof(int);
+    private const int GENERATED_INDEX_STRIDE = sizeof(int); //change to float from int
 
     // This function takes in a mesh and submesh and decomposes it into vertex and index arrays
     // A submesh is a subset of triangles in the mesh. This might happen, for instance, if a mesh
@@ -55,6 +56,7 @@ public static class LayerGrassBaker {
         var subMesh = mesh.GetSubMesh(subMeshIndex);
 
         Vector3[] allVertices = mesh.vertices;
+        Vector3[] allNormals = mesh.normals;
         Vector2[] allUVs = mesh.uv;
         int[] allIndices = mesh.triangles;
 
