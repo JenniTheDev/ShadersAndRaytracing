@@ -25,17 +25,17 @@ using UnityEditor;
 using UnityEngine;
 
 // This is a custom inspector for PyramidBakeSettings
-[CustomEditor(typeof(PyramidBakeSettings))]
-public class PyramidBakeInspector : Editor {
+[CustomEditor(typeof(LayerGrassBakeSettings))]
+public class LayerGrassBakeInspector : Editor {
     public override void OnInspectorGUI() {
         base.OnInspectorGUI();
 
         // After drawing the default GUI, add a button to trigger mesh creation
         if (GUILayout.Button("Create")) {
             // Find the unique ID for our compute shader
-            var shaderGUID = AssetDatabase.FindAssets("PyramidBuilder").FirstOrDefault();
+            var shaderGUID = AssetDatabase.FindAssets("LayerGrassMeshBuilder").FirstOrDefault();
             if (string.IsNullOrEmpty(shaderGUID)) {
-                Debug.LogError("Cannot find compute shader: PyramidBuilder.compute");
+                Debug.LogError("Cannot find compute shader: LayerGrassMeshBuilder.compute");
             } else {
                 // Turn the GUID into the actual compute shader object
                 var shader = AssetDatabase.LoadAssetAtPath<ComputeShader>(AssetDatabase.GUIDToAssetPath(shaderGUID));
@@ -43,8 +43,8 @@ public class PyramidBakeInspector : Editor {
                 // Opens a progress bar window
                 EditorUtility.DisplayProgressBar("Building mesh", "", 0);
                 // Run the baker
-                var settings = serializedObject.targetObject as PyramidBakeSettings;
-                bool success = PyramidBaker.Run(shader, settings, out var generatedMesh);
+                var settings = serializedObject.targetObject as LayerGrassBakeSettings;
+                bool success = LayerGrassBaker.Run(shader, settings, out var generatedMesh);
 
                 EditorUtility.ClearProgressBar();
 

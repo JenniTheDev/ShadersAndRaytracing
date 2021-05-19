@@ -20,16 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public static class PyramidBaker {
+public static class LayerGrassBaker {
+
     // The structure to send to the compute shader
     // This layout kind assures that the data is laid out sequentially
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
     private struct SourceVertex {
         public Vector3 position;
+        public Vector3 normal;
         public Vector2 uv;
     }
 
@@ -38,13 +38,14 @@ public static class PyramidBaker {
     private struct GeneratedVertex {
         public Vector3 position;
         public Vector3 normal;
-        public Vector2 uv;
+        public Vector2 uvAndHeight;
     }
 
     // The size of one entry in the various compute buffers
-    private const int SOURCE_VERT_STRIDE = sizeof(float) * (3 + 2);
+    private const int SOURCE_VERT_STRIDE = sizeof(float) * (3 + 3 + 2);
+
     private const int SOURCE_INDEX_STRIDE = sizeof(int);
-    private const int GENERATED_VERT_STRIDE = sizeof(float) * (3 + 3 + 2);
+    private const int GENERATED_VERT_STRIDE = sizeof(float) * (3 + 3 + 4);
     private const int GENERATED_INDEX_STRIDE = sizeof(int);
 
     // This function takes in a mesh and submesh and decomposes it into vertex and index arrays
@@ -81,12 +82,12 @@ public static class PyramidBaker {
         Mesh mesh = new Mesh();
         Vector3[] vertices = new Vector3[verts.Length];
         Vector3[] normals = new Vector3[verts.Length];
-        Vector2[] uvs = new Vector2[verts.Length];
+        Vector4[] uvs = new Vector4[verts.Length];
         for (int i = 0; i < verts.Length; i++) {
             var v = verts[i];
             vertices[i] = v.position;
             normals[i] = v.normal;
-            uvs[i] = v.uv;
+            uvs[i] = v.uvAndHeight;
         }
         mesh.SetVertices(vertices);
         mesh.SetNormals(normals);
@@ -96,16 +97,19 @@ public static class PyramidBaker {
         return mesh;
     }
 
-    public static bool Run(ComputeShader shader, PyramidBakeSettings settings, out Mesh generatedMesh) {
+    public static bool Run(ComputeShader shader, LayerGrassBakeSettings settings, out Mesh generatedMesh) {
         // Decompose the mesh into vertex/index buffers
         DecomposeMesh(settings.sourceMesh, settings.sourceSubMeshIndex, out var sourceVertices, out var sourceIndices);
 
         // The mesh topology is triangles, so there are three indices per triangle
         int numSourceTriangles = sourceIndices.Length / 3;
 
-        // We generate 3 triangles per source triangle, and there are three vertices per triangle
-        GeneratedVertex[] generatedVertices = new GeneratedVertex[numSourceTriangles * 3 * 3];
-        int[] generatedIndices = new int[generatedVertices.Length];
+        // Make sure there is at least two layers
+        int numLayers = Mathf.Max(2, settings.numGrassLayers);
+
+        // Duplicate the mesh for each layer
+        GeneratedVertex[] generatedVertices = new GeneratedVertex[sourceVertices.Length * numLayers];
+        int[] generatedIndices = new int[sourceIndices.Length * numLayers];
 
         // A graphics buffer is a better version of the compute buffer
         GraphicsBuffer sourceVertBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, sourceVertices.Length, SOURCE_VERT_STRIDE);
@@ -122,9 +126,13 @@ public static class PyramidBaker {
         shader.SetBuffer(idGrassKernel, "_GeneratedVertices", genVertBuffer);
         shader.SetBuffer(idGrassKernel, "_GeneratedIndices", genIndexBuffer);
         // Convert the scale and rotation settings into a transformation matrix
-        shader.SetMatrix("_Transform", Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(settings.rotation), settings.scale));
-        shader.SetFloat("_PyramidHeight", settings.pyramidHeight);
+        var transform = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(settings.rotation), settings.scale);
+        shader.SetMatrix("_Transform", transform);
+        shader.SetMatrix("_NormalTransform", transform.inverse.transpose); // for normales use inverse transpose transform
+        shader.SetFloat("_GrassHeight", settings.grassHeight);
+        shader.SetInt("_NumGrassLayers", numLayers);
         shader.SetInt("_NumSourceTriangles", numSourceTriangles);
+        shader.SetInt("_NumSourceVertices", sourceVertices.Length);
 
         // Set data in the buffers
         sourceVertBuffer.SetData(sourceVertices);
