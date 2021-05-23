@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 230.91235, g: 145.6543, b: 123.008545, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1601,7 +1601,7 @@ MonoBehaviour:
   m_UseScreenSpaceShadows: 0
   m_InteractsWithSky: 1
   m_AngularDiameter: 0.5
-  m_FlareSize: 4
+  m_FlareSize: 5
   m_FlareTint: {r: 1, g: 1, b: 1, a: 1}
   m_FlareFalloff: 2
   m_SurfaceTexture: {fileID: 0}
@@ -7294,17 +7294,53 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -1.9671402
-      outSlope: -1.9671402
+      inSlope: -4.0793343
+      outSlope: -4.0793343
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.49864864
-      value: 0.019088209
-      inSlope: -0.00530231
-      outSlope: -0.00530231
+      time: 0.13286209
+      value: 0.4580111
+      inSlope: -3.7463622
+      outSlope: -3.7463622
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2544183
+      value: 0.04309231
+      inSlope: -1.8178095
+      outSlope: -1.8178095
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.49767208
+      value: -0.010965741
+      inSlope: -0.0400723
+      outSlope: -0.0400723
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.727753
+      value: 0.021725178
+      inSlope: 1.5231868
+      outSlope: 1.5231868
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.88809544
+      value: 0.48740605
+      inSlope: 3.7424622
+      outSlope: 3.7424622
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -7312,8 +7348,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1.9565356
-      outSlope: 1.9565356
+      inSlope: 4.580635
+      outSlope: 4.580635
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
