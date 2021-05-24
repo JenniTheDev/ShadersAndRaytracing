@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3369eaaa1ac572e4b996eebee4dc4561, type: 3}
-  m_Name: ShaderCityGameManager
+  m_Script: {fileID: 11500000, guid: 094941e530bd2a3469c146ac9ee8a0d0, type: 3}
+  m_Name: OnGameStateChange
   m_EditorClassIdentifier: 
-  currentState: 1
-  onGameStateChange: {fileID: 11400000, guid: 726dfc3eb5ab1c048969518d39d0d7f2, type: 2}
