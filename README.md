@@ -31,7 +31,7 @@ Shaderland has different types of Shader Graphs on all the different trees. It a
 
 <br><br>
 ## Acknowledgements <a name="Ack"></a> <br>
-The first person controller is from the Unity Demo Project for Shaders
-All polygon art assets are from the [Polygon Prototype](https://assetstore.unity.com/packages/3d/props/exterior/polygon-prototype-low-poly-3d-art-by-synty-137126) by Synty Studios
-Shaderland scene music is [Elevator Music 2](https://opengameart.org/content/elevator-music-2) by Alex McCulloch
-Buttons are from [371 Simple Buttons](https://assetstore.unity.com/packages/2d/gui/icons/371-simple-buttons-pack-97516) by Nayrissa
+The first person controller is from the Unity Demo Project for Shaders <br>
+All polygon art assets are from the [Polygon Prototype](https://assetstore.unity.com/packages/3d/props/exterior/polygon-prototype-low-poly-3d-art-by-synty-137126) by Synty Studios <br>
+Shaderland scene music is [Elevator Music 2](https://opengameart.org/content/elevator-music-2) by Alex McCulloch <br>
+Buttons are from [371 Simple Buttons](https://assetstore.unity.com/packages/2d/gui/icons/371-simple-buttons-pack-97516) by Nayrissa <br>
